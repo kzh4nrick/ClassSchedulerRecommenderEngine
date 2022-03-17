@@ -11,11 +11,15 @@
     "@headlessui/vue": "^1.4.3",
     "@heroicons/vue": "^1.0.5",
     "@tailwindcss/forms": "^0.4.0",
+    "@vuelidate/core": "^2.0.0-alpha.34",
+    "@vuelidate/validators": "^2.0.0-alpha.26",
     "axios": "^0.26.0",
+    "vee-validate": "^4.5.10",
     "vue": "^3.2.25",
     "vue-axios": "^3.4.1",
     "vue-router": "^4.0.12",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.2.0",

@@ -26,7 +26,7 @@
             <div class="ml-4 flex items-center md:ml-6">
 
               <!-- Profile dropdown -->
-              <Menu as="div" class="ml-3 relative">
+              <!-- <Menu as="div" class="ml-3 relative">
                 <div>
                   <MenuButton class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                     <span class="sr-only">Open user menu</span>
@@ -40,7 +40,7 @@
                     </MenuItem>
                   </MenuItems>
                 </transition>
-              </Menu>
+              </Menu> -->
             </div>
           </div>
           <div class="-mr-2 flex md:hidden">
@@ -58,7 +58,7 @@
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
           <router-link v-for="item in navigation" :key="item.name" :to="item.to" active-class="bg-gray-900 text-white" :class="[this.$route.name === item.to.name ? '' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block px-3 py-2 rounded-md text-base font-medium']">{{ item.name }}</router-link>
         </div>
-        <div class="pt-4 pb-3 border-t border-gray-700">
+        <!-- <div class="pt-4 pb-3 border-t border-gray-700">
           <div class="flex items-center px-5">
             <div class="flex-shrink-0">
               <img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" />
@@ -72,7 +72,7 @@
           <div class="mt-3 px-2 space-y-1">
             <DisclosureButton v-for="item in userNavigation" :key="item.name" as="a" :href="item.href" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">{{ item.name }}</DisclosureButton>
           </div>
-        </div>
+        </div> -->
       </DisclosurePanel>
     </Disclosure>
 
@@ -84,7 +84,7 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/vue/outline'
 import {useStore} from 'vuex'
-import {computed} from 'vue'
+// import {computed} from 'vue'
 
 const navigation = [
   { name: 'Dashboard', to: { name: "Dashboard" } },
@@ -93,11 +93,11 @@ const navigation = [
   { name: 'Faculty', to: { name: "Faculty" } },
   { name: 'Classrooms', to: { name: "Classrooms" } },
 ]
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-]
+// const userNavigation = [
+//   { name: 'Your Profile', href: '#' },
+//   { name: 'Settings', href: '#' },
+//   { name: 'Sign out', href: '#' },
+// ]
 
 export default {
   components: {
@@ -113,12 +113,11 @@ export default {
     XIcon,
   },
   setup() {
-    const store = useStore();
 
     return {
-      user: computed(() => store.state.user.data),
+      // user: computed(() => store.state.user.data),
       navigation,
-      userNavigation,
+      // userNavigation,
     }
   },
 }
