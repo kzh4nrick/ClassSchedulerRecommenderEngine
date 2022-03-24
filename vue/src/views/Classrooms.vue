@@ -30,7 +30,7 @@
                                                 v-model="v$.college_id.$model"
                                                 @keyup="v$.college_id.$touch()"
                                                 @blur="v$.college_id.$touch()"
-                                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
                                             >
                                                 <option disabled value="">Lists of Colleges</option>
                                                 <option v-for="lists in collegeList"
@@ -44,7 +44,7 @@
                                                 v-else
                                                 disabled
                                                 v-model="model.college_id"
-                                                class="cursor-not-allowed mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                                class="cursor-not-allowed mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
                                             >
                                                 <option disabled value="">Lists of Colleges</option>
                                                 <option v-for="lists in collegeList"
@@ -69,14 +69,14 @@
                                                 v-model="v$.Building_No.$model"
                                                 @keyup="v$.Building_No.$touch()"
                                                 @blur="v$.Building_No.$touch()"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <input
                                                 v-else
                                                 disabled
                                                 type="text"
                                                 v-model="model.Building_No"
-                                                class="cursor-not-allowed mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="cursor-not-allowed mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <div v-if="v$.Building_No.$error">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-red-500 inline ml-5 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -101,7 +101,7 @@
                                                 v-model="v$.Classroom_No.$model"
                                                 @keyup="v$.Classroom_No.$touch()"
                                                 @blur="v$.Classroom_No.$touch()"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <input
                                                 v-else
@@ -109,7 +109,7 @@
                                                 type="text"
                                                 v-model="model.Classroom_No"
                                                 autocomplete="Classroom_No"
-                                                class="cursor-not-allowed mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="cursor-not-allowed mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <div v-if="v$.Classroom_No.$error">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-red-500 inline ml-5 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -134,7 +134,7 @@
                                                 v-model="v$.Classroom_Type.$model"
                                                 @keyup="v$.Classroom_Type.$touch()"
                                                 @blur="v$.Classroom_Type.$touch()"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <input
                                                 v-else
@@ -142,7 +142,7 @@
                                                 type="text"
                                                 v-model="model.Classroom_Type"
                                                 autocomplete="Classroom_No"
-                                                class="cursor-not-allowed mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="cursor-not-allowed mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <div v-if="v$.Classroom_Type.$error">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-red-500 inline ml-5 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -163,13 +163,13 @@
                                         v-if="v$.$invalid || classroomId != false"
                                         disabled
                                         type="submit" :value="'Save'"
-                                        class="cursor-not-allowed button inline-flex justify-center py-2 border border-transparent block w-full shadow-sm text-sm font-medium rounded-md text-white bg-indigo-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        class="cursor-not-allowed button inline-flex justify-center py-2 border border-transparent block w-full shadow-sm text-sm font-medium rounded-md text-white bg-sky-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
                                     />
                                     <input
                                         v-else
                                         @click="postAjaxForm"
                                         type="submit" :value="'Save'"
-                                        class="cursor-pointer button inline-flex justify-center py-2 border border-transparent block w-full shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        class="cursor-pointer button inline-flex justify-center py-2 border border-transparent block w-full shadow-sm text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
                                     />
                                 </div>
                             </div>

@@ -7,6 +7,8 @@ use App\Models\Course;
 use App\Models\Faculty;
 use App\Models\Classroom;
 use App\Models\College;
+use App\Models\Schedule;
+use App\Models\ClassSchedule;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +95,7 @@ Route::post('/subjects/create', function (Request $request) {
             "Subject_Code" => $data["Subject_Code"],
             "Subject_Name" => $data["Subject_Name"],
             "Subject_Type" => $data["Subject_Type"],
+            "course_id" => $data["course_id"],
             "Units" => $data["Units"]
         ]);
 
@@ -516,4 +519,215 @@ Route::put('/classrooms/update/{id}', function (Request $request, $id) {
     $result = $classroom->save();
 
     return ["success" => $result, "response" => ["classroom" => $classroom]];
+});
+
+//GET THE LISTS OF COURSES BY SELECTED COLLEGE
+Route::get('/courses/college/{id}', function (Request $request, $id) {
+    $courses = Course::where('college_id', $id)->get();
+
+    if (empty($courses)) {
+        return [
+            "success" => false,
+            "response" => [
+                "error" => "No record for Courses on this College."
+            ]
+        ];
+    }
+
+    return [
+        "success" => true,
+        "response" => [
+            "courses" => $courses
+        ]
+    ];
+});
+
+//CREATE RECORD FOR SCHEDULE
+Route::post('/schedules/create', function (Request $request) {
+    $data = $request->all();
+
+    if(!Schedule::where('course_id','=', $data['course_id'])->where('yearLevel','=', $data['yearLevel'])->where('block','=', $data['block'])->exists()) {
+
+        $schedule = Schedule::create([
+            "course_id" => $data["course_id"],
+            "yearLevel" => $data["yearLevel"],
+            "block" => $data["block"]
+        ]);
+
+        if (empty($schedule->id)) {
+            return [
+                "success" => false,
+                "response" => [
+                    "error" => "An unexpected error has occured."
+                ]
+            ];
+        } else {
+            return [
+                "success" => true,
+                "response" => [
+                    "schedule" => $schedule
+                ]
+            ];
+        }
+    } else {
+            return [
+                "success" => false,
+                "response" => [
+                    "error" => "The Schedule already exists."
+                ]
+            ];
+        }
+});
+
+//GET A SCHEDULE
+Route::get("/schedules/{id}/{yL}/{b}", function (Request $request, $id, $yL, $b) {
+    $schedule = Schedule::where('course_id', $id)->where('yearLevel', $yL)->where('block', $b)->get();
+
+    if (empty($schedule)) {
+        return [
+            "success" => false,
+            "response" => [
+                "error" => "No record for Schedule found."
+            ]
+        ];
+    }
+
+    return [
+        "success" => true,
+        "response" => [
+            "schedule" => $schedule
+        ]
+    ];
+});
+
+//GET THE LISTS OF MAJOR SUBJECTS BY COURSE
+Route::get('/subjects/major/{m}/{id}', function (Request $request, $m, $id) {
+    $subjects = Subject::where('Subject_Type', $m)->where('course_id', $id)->get();
+
+    if (empty($subjects)) {
+        return [
+            "success" => false,
+            "response" => [
+                "error" => "No record for Major Subjects."
+            ]
+        ];
+    }
+
+    return [
+        "success" => true,
+        "response" => [
+            "subjects" => $subjects
+        ]
+    ];
+});
+
+//GET THE LISTS OF NOT MAJOR SUBJECTS BY COURSE
+Route::get('/subjects/notmajor/{id}', function (Request $request, $id) {
+    $subject = Subject::whereNull('course_id');
+    $subjects = Subject::where('course_id', '<>', $id)->union($subject)->get();
+
+    if (empty($subjects)) {
+        return [
+            "success" => false,
+            "response" => [
+                "error" => "No record for Major Subjects."
+            ]
+        ];
+    }
+
+    return [
+        "success" => true,
+        "response" => [
+            "subjects" => $subjects
+        ]
+    ];
+});
+
+//GET THE LISTS OF MAJOR FACULTIES BY COLLEGE
+Route::get('/faculties/major/{id}', function (Request $request, $id) {
+    $faculties = Faculty::where('college_id', $id)->get();
+
+    if (empty($faculties)) {
+        return [
+            "success" => false,
+            "response" => [
+                "error" => "No record for Major Faculties."
+            ]
+        ];
+    }
+
+    return [
+        "success" => true,
+        "response" => [
+            "faculties" => $faculties
+        ]
+    ];
+});
+
+//GET THE LISTS OF MAJOR CLASSROOMS BY COLLEGE
+Route::get('/classrooms/major/{id}', function (Request $request, $id) {
+    $classrooms = Classroom::where('college_id', $id)->get();
+
+    if (empty($classrooms)) {
+        return [
+            "success" => false,
+            "response" => [
+                "error" => "No record for Major Classrooms."
+            ]
+        ];
+    }
+
+    return [
+        "success" => true,
+        "response" => [
+            "classrooms" => $classrooms
+        ]
+    ];
+});
+
+//CREATE RECORD FOR CLASS SCHEDULE
+Route::post('/classschedules/create', function (Request $request) {
+    $data = $request->all();
+    $start = ClassSchedule::where('startTime','>=', $data['startTime']);
+    $end = ClassSchedule::where('endTime','<=', $data['endTime'])->union($start)->exists();
+
+    if(!ClassSchedule::where($end)
+                ->where('subject_id', '=', $data['subject_id'])
+                ->where('faculty_id', '=', $data['faculty_id'])
+                ->where('classroom_id', '=', $data['classroom_id'])
+                ->exists())
+    {
+        $classschedule = ClassSchedule::create([
+            "schedule_id" => $data["schedule_id"],
+            "day" => $data["day"],
+            "startTime" => $data["startTime"],
+            "endTime" => $data["endTime"],
+            "subject_id" => $data["subject_id"],
+            "faculty_id" => $data["faculty_id"],
+            "classroom_id" => $data["classroom_id"]
+        ]);
+                if (empty($classschedule->id)) {
+                    return [
+                        "success" => false,
+                        "response" => [
+                            "error" => "An unexpected error has occured."
+                        ]
+                    ];
+                } else {
+                    return [
+                        "success" => true,
+                        "response" => [
+                            "schedule" => $classschedule
+                        ]
+                    ];
+                }
+        
+    } else {
+            return [
+                "success" => false,
+                "response" => [
+                    "error" => "The Class Schedule already exists."
+                ]
+            ];
+        }
 });

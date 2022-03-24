@@ -30,14 +30,14 @@
                                                 v-model="v$.Subject_Code.$model"
                                                 @keyup="v$.Subject_Code.$touch()"
                                                 @blur="v$.Subject_Code.$touch()"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <input
                                                 v-else
                                                 disabled
                                                 type="text"
                                                 v-model="model.Subject_Code"
-                                                class="cursor-not-allowed mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="cursor-not-allowed mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <div v-if="v$.Subject_Code.$error">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-red-500 inline ml-5 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -67,7 +67,7 @@
                                                 v-model="v$.Subject_Name.$model"
                                                 @keyup="v$.Subject_Name.$touch()"
                                                 @blur="v$.Subject_Name.$touch()"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <input
                                                 v-else
@@ -77,7 +77,7 @@
                                                 id="subject_name"
                                                 v-model="model.Subject_Name"
                                                 autocomplete="subject_name"
-                                                class="cursor-not-allowed mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="cursor-not-allowed mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <div v-if="v$.Subject_Name.$error">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-red-500 inline ml-5 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -95,24 +95,36 @@
                                                 class="block text-sm font-medium text-gray-700"
                                                 >Subject Type</label
                                             >
-                                            <input
-                                                v-if="subjectId == false"
-                                                type="text"
-                                                required
+                                            <input 
                                                 v-model="v$.Subject_Type.$model"
-                                                @keyup="v$.Subject_Type.$touch()"
-                                                @blur="v$.Subject_Type.$touch()"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                            />
+                                                @click="isMajors"
+                                                class="mt-1 ml-5 border-2 border-sky-600 focus:border-sky-500 inline-block focus:ring-sky-500" type="radio" required value="major"/>
+                                            <label class="inline-block ml-1 text-sm font-medium text-gray-700" for="major">Major</label>
+                                            <input
+                                                v-model="v$.Subject_Type.$model"
+                                                @click="isMajor"
+                                                class="mt-1 ml-3 border-2 border-sky-600 focus:border-sky-500 inline-block focus:ring-sky-500" type="radio" required value="non"/>
+                                            <label class="inline ml-1 text-sm font-medium text-gray-700" for="non">Non-Major</label>
+                                            <select
+                                                v-if="subjectId == false && major == false"
+                                                
+                                                v-model="model.course_id"
+                                                class="mt-1.5 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                            >
+                                                <option disabled value="">Lists of Courses</option>
+                                                <option v-for="lists in courseList"
+                                                        v-bind="lists.id"
+                                                        :value="lists.id"
+                                                        >
+                                                        {{ lists.Course_Name }}
+                                                </option>
+                                            </select>
                                             <input
                                                 v-else
                                                 disabled
                                                 type="text"
-                                                name="subject_type"
-                                                id="subject_type"
-                                                v-model="model.Subject_Type"
-                                                autocomplete="subject_type"
-                                                class="cursor-not-allowed mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                v-model="model.course_id"
+                                                class="cursor-not-allowed mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <div v-if="v$.Subject_Type.$error">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-red-500 inline ml-5 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -137,7 +149,7 @@
                                                 v-model="v$.Units.$model"
                                                 @keyup="v$.Units.$touch()"
                                                 @blur="v$.Units.$touch()"
-                                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <input
                                                 v-else
@@ -147,7 +159,7 @@
                                                 id="units"
                                                 v-model="model.Units"
                                                 autocomplete="units"
-                                                class="cursor-not-allowed mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                                class="cursor-not-allowed mt-1 focus:ring-sky-500 focus:border-sky-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                             />
                                             <div v-if="v$.Units.$error">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-red-500 inline ml-5 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -167,13 +179,13 @@
                                         v-if="v$.$invalid || subjectId != false"
                                         disabled
                                         type="submit" :value="'Save'"
-                                        class="cursor-not-allowed button inline-flex justify-center py-2 border border-transparent block w-full shadow-sm text-sm font-medium rounded-md text-white bg-indigo-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        class="cursor-not-allowed button inline-flex justify-center py-2 border border-transparent block w-full shadow-sm text-sm font-medium rounded-md text-white bg-sky-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
                                     />
                                     <input
                                         v-else
                                         @click="postAjaxForm"
                                         type="submit" :value="'Save'"
-                                        class="cursor-pointer button inline-flex justify-center py-2 border border-transparent block w-full shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        class="cursor-pointer button inline-flex justify-center py-2 border border-transparent block w-full shadow-sm text-sm font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
                                     />
                                     
                                 </div>
@@ -360,6 +372,7 @@ export default {
             Subject_Code: '',
             Subject_Name: '',
             Subject_Type: '',
+            course_id: null,
             Units: '',
         }
         const model = ref({...initialState});
@@ -369,6 +382,7 @@ export default {
                 Subject_Code: { required },
                 Subject_Name: { required, alpha },
                 Subject_Type: { required },
+                // course_id: { required },
                 Units: { required, numeric, integer, minValue: minValue(1), maxValue: maxValue(20) }
             }
         })
@@ -381,6 +395,10 @@ export default {
         const subjectList = ref({});
         const subjectId = ref(false);
 
+        const courseList = ref({});
+
+        const major = ref(false);
+
         const reset = () => {
             model.value = {...initialState};
         }
@@ -388,21 +406,16 @@ export default {
             subjectList.value = await APIController.FetchSubjects();
         }
 
-        // const toggleSubject = (id = false) => {
-        //     subjectId.value = false;
-
-        //     if (id) {
-        //         subjectId.value = id;
-        //         GetSubject();
-        //     }
-        // }
+        const fetchCourses = async () => {
+            courseList.value = await APIController.FetchCourses();
+        }
         
         const GetSubject = async () => {
             model2.value = await APIController.FetchSubject(subjectId.value);
         }
 
         const AddNewSubject = async () => {
-            let tempSubject = await APIController.CreateSubject(model.value.Subject_Code, model.value.Subject_Name, model.value.Subject_Type, model.value.Units);
+            let tempSubject = await APIController.CreateSubject(model.value.Subject_Code, model.value.Subject_Name, model.value.Subject_Type, model.value.course_id, model.value.Units);
             if (tempSubject) {
                 fetchSubjects(),
                 reset();
@@ -445,6 +458,15 @@ export default {
             )});
         });
 
+        function isMajor() {
+            major.value = true;
+        }
+
+        function isMajors() {
+            fetchCourses();
+            major.value = false;
+        }
+
         function highlightMatches(text) {
             text = text.toString();
             const matchExists = text.toLowerCase().includes(searchQuery.value.toLowerCase());
@@ -485,6 +507,11 @@ export default {
             setToEditing,
             cancelEdit,
             v$,
+            courseList,
+            fetchCourses,
+            isMajor,
+            isMajors,
+            major
             // Subject_Code,
             // Subject_Name,
             // Subject_Type,

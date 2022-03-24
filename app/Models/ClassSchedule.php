@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subject extends Model
+class ClassSchedule extends Model
 {
     use HasFactory;
-    protected $fillable = ['Subject_Code', 'Subject_Name', 'Subject_Type', 'course_id', 'Units'];
+    protected $fillable = ['schdule_id', 'day', 'startTime', 'endTime', 'subject_id', 'faculty_id', 'classroom_id'];
 
 }

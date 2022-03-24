@@ -34,23 +34,24 @@ export default {
         }
     },
 
-    CreateSubject: (Subject_Code = "", Subject_Name = "", Subject_Type = "", Units = "") => {
+    CreateSubject: (Subject_Code = "", Subject_Name = "", Subject_Type = "", course_id = "", Units = "") => {
         if (
             Subject_Code == "" || 
             Subject_Name == "" || 
             Subject_Type == "" ||
+            course_id == "" ||
             Units == ""
 
         ) {
             return false;
         }
-
+       
         return fetch(API_BASE + "/subjects/create", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ Subject_Code, Subject_Name, Subject_Type, Units})
+            body: JSON.stringify({ Subject_Code, Subject_Name, Subject_Type, course_id, Units})
         })
         .then(response => response.json())
         .then(data => {
@@ -391,7 +392,7 @@ export default {
 
     CreateClassroom: (Building_No = "", Classroom_No = "", Classroom_Type = "", college_id = "") => {
         if (
-            Building_No = "" ||
+            Building_No == "" ||
             Classroom_No == "" || 
             Classroom_Type == "" ||
             college_id == ""
@@ -469,6 +470,128 @@ export default {
         .catch(err => {
             alert(err);
         });
-    }
+    },
+    FetchCoursesCollege: id => {
+        
+            return fetch(API_BASE + "/courses/college/" + id)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    return data.response.courses;
+                } else {
+                    throw data.response.error;
+                }
+            })
+            .catch(err => {
+                alert(err)
+            });
+        
+    },
+    CreateSchedule: (course_id = "", yearLevel = "", block = "") => {
+        if (
+            course_id == "" ||
+            yearLevel == "" || 
+            block == ""
+
+        ) {
+            return false;
+        }
+
+        return fetch(API_BASE + "/schedules/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ course_id, yearLevel, block})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // alert("New record has been saved.");
+                return data.response.schedule;
+            } else {
+                throw data.response.error;
+            }
+        })
+        .catch(err => {
+            // alert(err);
+        });
+    },
+    FetchSchedule: (id, yL, b) => {
+        if (id != null) {
+            return fetch(API_BASE + "/schedules/" + id + "/" + yL + "/" + b)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    return data.response.schedule;
+                } else {
+                    throw data.response.error;
+                }
+            })
+            .catch(err => {
+                alert(err)
+            });
+        }
+    },
+    FetchMajorSubjects: (m, id) => {
+        return fetch(API_BASE + "/subjects/major/" + m + "/" + id)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                return data.response.subjects;
+            } else {
+                throw data.response.error;
+            }
+        })
+        .catch(err => {
+            alert(err)
+        });
+    
+    },
+    FetchNotMajorSubjects: id => {
+        return fetch(API_BASE + "/subjects/notmajor/" + id)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                return data.response.subjects;
+            } else {
+                throw data.response.error;
+            }
+        })
+        .catch(err => {
+            alert(err)
+        });
+    
+    },
+    FetchMajorFaculties: id => {
+        return fetch(API_BASE + "/faculties/major/" + id)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                return data.response.faculties;
+            } else {
+                throw data.response.error;
+            }
+        })
+        .catch(err => {
+            alert(err)
+        });
+    
+    },
+    FetchMajorClassrooms: id => {
+        return fetch(API_BASE + "/classrooms/major/" + id)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                return data.response.classrooms;
+            } else {
+                throw data.response.error;
+            }
+        })
+        .catch(err => {
+            alert(err)
+        });
+    
+    },
 
 }
