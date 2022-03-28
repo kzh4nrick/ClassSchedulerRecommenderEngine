@@ -23,7 +23,7 @@
                                                 for="college"
                                                 class="block text-sm font-medium text-gray-700"
                                                 >College Department</label
-                                            >
+                                            >COLLEGE DEPARTMENT
                                             <select
                                                 v-if="classroomId == false"
                                                 required
@@ -259,7 +259,7 @@
                                                     <td v-else @click="setToEditing(list.id)"
                                                         class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
                                                     >
-                                                            <span v-html="highlightMatches(list.college_id)"></span>
+                                                            <span v-html="highlightMatches(list.College_Name)"></span>
                                                     </td>
                                                     <!-- <td
                                                         class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
@@ -394,7 +394,7 @@ export default {
             model.value = {...initialState};
         }
         const fetchClassrooms = async () => {
-            classroomList.value = await APIController.FetchClassrooms();
+            classroomList.value = await APIController.FetchClassroomsWithColleges();
         }
         const fetchColleges = async () => {
             collegeList.value = await APIController.FetchColleges();

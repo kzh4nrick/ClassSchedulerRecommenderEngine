@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Faculty;
 use App\Models\Classroom;
 use App\Models\College;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,7 +74,7 @@ Route::get("/subjects/all", function () {
                 "error" => "No records of Subjects found."
             ]
         ];
-    } 
+    }
 
     return [
         "success" => true,
@@ -87,7 +88,7 @@ Route::get("/subjects/all", function () {
 Route::post('/subjects/create', function (Request $request) {
     $data = $request->all();
 
-    if(!Subject::where('Subject_Code','=', $data['Subject_Code'])->exists()) {
+    if (!Subject::where('Subject_Code', '=', $data['Subject_Code'])->exists()) {
 
         $subject = Subject::create([
             "Subject_Code" => $data["Subject_Code"],
@@ -111,7 +112,6 @@ Route::post('/subjects/create', function (Request $request) {
                 ]
             ];
         }
-        
     } else {
         return [
             "success" => false,
@@ -120,7 +120,6 @@ Route::post('/subjects/create', function (Request $request) {
             ]
         ];
     }
-
 });
 
 //GET A SINGLE SUBJECT
@@ -185,7 +184,7 @@ Route::get("/colleges/all", function () {
                 "error" => "No records of Colleges found."
             ]
         ];
-    } 
+    }
 
     return [
         "success" => true,
@@ -194,6 +193,27 @@ Route::get("/colleges/all", function () {
         ]
     ];
 });
+
+Route::get("/colleges/all", function () {
+    $colleges = College::all();
+
+    if (empty($colleges)) {
+        return [
+            "success" => false,
+            "response" => [
+                "error" => "No records of Colleges found."
+            ]
+        ];
+    }
+
+    return [
+        "success" => true,
+        "response" => [
+            "colleges" => $colleges
+        ]
+    ];
+});
+
 
 // GET ALL COURSES
 Route::get("/courses/all", function () {
@@ -206,7 +226,7 @@ Route::get("/courses/all", function () {
                 "error" => "No records of Courses found."
             ]
         ];
-    } 
+    }
 
     return [
         "success" => true,
@@ -220,7 +240,7 @@ Route::get("/courses/all", function () {
 Route::post('/courses/create', function (Request $request) {
     $data = $request->all();
 
-    if(!Course::where('Course_Code','=', $data['Course_Code'])->exists()) {
+    if (!Course::where('Course_Code', '=', $data['Course_Code'])->exists()) {
 
         $course = Course::create([
             "Course_Code" => $data["Course_Code"],
@@ -243,7 +263,6 @@ Route::post('/courses/create', function (Request $request) {
                 ]
             ];
         }
-        
     } else {
         return [
             "success" => false,
@@ -252,7 +271,6 @@ Route::post('/courses/create', function (Request $request) {
             ]
         ];
     }
-
 });
 
 //GET A SINGLE COURSE
@@ -317,7 +335,7 @@ Route::get("/faculties/all", function () {
                 "error" => "No records of Faculties found."
             ]
         ];
-    } 
+    }
 
     return [
         "success" => true,
@@ -331,7 +349,7 @@ Route::get("/faculties/all", function () {
 Route::post('/faculties/create', function (Request $request) {
     $data = $request->all();
 
-    if(!Faculty::where('Faculty_ID','=', $data['Faculty_ID'])->exists()) {
+    if (!Faculty::where('Faculty_ID', '=', $data['Faculty_ID'])->exists()) {
 
         $faculty = Faculty::create([
             "Faculty_ID" => $data["Faculty_ID"],
@@ -354,7 +372,6 @@ Route::post('/faculties/create', function (Request $request) {
                 ]
             ];
         }
-        
     } else {
         return [
             "success" => false,
@@ -363,7 +380,6 @@ Route::post('/faculties/create', function (Request $request) {
             ]
         ];
     }
-
 });
 
 //GET A SINGLE FACULTY
@@ -428,7 +444,7 @@ Route::get("/classrooms/all", function () {
                 "error" => "No records of Classrooms found."
             ]
         ];
-    } 
+    }
 
     return [
         "success" => true,
@@ -438,33 +454,58 @@ Route::get("/classrooms/all", function () {
     ];
 });
 
+
+// GET ALL CLASSROOMS WITH COLLEGE DEPARTMENT
+Route::get("/classrooms/colleges/all", function () {
+    $classrooms = DB::table('classrooms')
+        ->join('colleges', 'classrooms.college_id', '=', 'colleges.id')
+        ->select('classrooms.*', 'colleges.College_Name', 'colleges.Campus')
+        ->get();
+
+    if (empty($classrooms)) {
+        return [
+            "success" => false,
+            "response" => [
+                "error" => "No records of Classrooms found."
+            ]
+        ];
+    }
+
+    return [
+        "success" => true,
+        "response" => [
+            "classrooms" => $classrooms
+        ]
+    ];
+});
+
+
 //CREATE RECORD FOR CLASSROOM
 Route::post('/classrooms/create', function (Request $request) {
     $data = $request->all();
 
-        $classroom = Classroom::create([
-            "Building_No" => $data["Building_No"],
-            "Classroom_No" => $data["Classroom_No"],
-            "Classroom_Type" => $data["Classroom_Type"],
-            "college_id" => $data["college_id"]
-        ]);
+    $classroom = Classroom::create([
+        "Building_No" => $data["Building_No"],
+        "Classroom_No" => $data["Classroom_No"],
+        "Classroom_Type" => $data["Classroom_Type"],
+        "college_id" => $data["college_id"]
+    ]);
 
-        if (empty($classroom->id)) {
-            return [
-                "success" => false,
-                "response" => [
-                    "error" => "An unexpected error has occured."
-                ]
-            ];
-        } else {
-            return [
-                "success" => true,
-                "response" => [
-                    "classroom" => $classroom
-                ]
-            ];
-        }
-
+    if (empty($classroom->id)) {
+        return [
+            "success" => false,
+            "response" => [
+                "error" => "An unexpected error has occured."
+            ]
+        ];
+    } else {
+        return [
+            "success" => true,
+            "response" => [
+                "classroom" => $classroom
+            ]
+        ];
+    }
 });
 
 //GET A SINGLE CLASSROOM
